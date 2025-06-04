@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+		<div style="display:flex;align-items: center;justify-content: center;flex-direction: column;gap: 20px;">
+			<form style="display:flex;align-items: center;justify-content: center;flex-direction: column;">
+				<label for="pseudo">pseudo</label>
+				<input type="text" name="pseudo" id="pseudo">
+				<label for="pseudo">mdp</label>
+				<input type="text" name="mdp" id="mdp">
+				<button name="submit" id="submit">Envoyer</button>
+			</form>
+			<span id="span" style="color: red;display: none;font-size: 150px; font-weight: 2000;text-transform: uppercase;"><b>C'est non !</b></span>
+		</div>
+		<script type="text/javascript">
+			let token = "";
+			document.getElementById("submit").addEventListener("click", async function (e) {
+				e.preventDefault();
+				let data = {
+					"email": document.getElementById("pseudo").value,
+					"password": document.getElementById("mdp").value
+				}
+				const res = await fetch("https://b3-api-gw5z.onrender.com/auth/login", {
+	                method: 'post',
+	                headers: {
+						"Content-Type": "application/json"
+					},
+	                body: JSON.stringify(data)
+	            })
+	            let myvar = await res.json();
+	            if (myvar.statusCode) {
+	            	document.getElementById('span').style.display = "flex";
+	            }
+	            else {
+	            	localStorage.setItem("token", myvar.access_token)
+	            	window.location = "testDisplay.html";
+	            }
+	        });
+		</script>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<section id="container">
+		
+	</section>
+
+	<script type="text/javascript">
+		async function display() {
+			const res = await fetch("https://b3-api-gw5z.onrender.com/auth/profile", {
+	            method: 'get',
+	            headers: {
+					"Authorization": "Bearer " + localStorage.getItem("token")
+				}
+	        });
+
+	        if (!res.ok) {
+	        	window.location = "testjwt.html";
+	        }
+	        else {
+	        	let myvar = await res.json();
+	        	let tabKeys = Object.keys(myvar);
+
+		        tabKeys.forEach((element)=> {
+		        	let newp = document.createElement("p");
+		        	newp.textContent = element + " : " + myvar[element];
+		        	document.getElementById("container").appendChild(newp);
+		        });
+	        }
+	    }
+
+	    display();
+
+	</script>
+</body>
+</html>
